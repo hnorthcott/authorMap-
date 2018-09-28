@@ -37,26 +37,13 @@ def summary_details(id_list):
                              id= ids)
     records = Entrez.parse(handle)
 
-
-    lastAuthors = []
-    for record in records:
-        #print(record['AuthorList'])
-        #print(record['LastAuthor'])
-        lastAuthors.append(record['LastAuthor'])
-    print(lastAuthors)
-
     paperDict = {}
     for record in records:
-        for author in lastAuthors:
-            if author in paperDict:
-                paperDict[author].append((record['AuthorList']).contains(author))
-            else:
-                paperDict[author] = (record['AuthorList']).contains(author)
-    print(paperDict)
+        paperDict[(record['LastAuthor'])] = record['AuthorList']
+        print(record['AuthorList'])
+        print(record['LastAuthor'])
 
-
-
-
+        print(paperDict)
 
 
 if __name__ == '__main__':
