@@ -28,6 +28,8 @@ def fetch_details(id_list):
     results = Entrez.read(handle)
     return results
 
+paperDict = {}
+
 
 def summary_details(id_list):
     ids = ','.join(id_list)
@@ -37,13 +39,12 @@ def summary_details(id_list):
                              id= ids)
     records = Entrez.parse(handle)
 
-    paperDict = {}
     for record in records:
         paperDict[(record['LastAuthor'])] = record['AuthorList']
-        print(record['AuthorList'])
-        print(record['LastAuthor'])
+        #print(record['AuthorList'])
+        #print(record['LastAuthor'])
 
-        print(paperDict)
+    print(paperDict)
 
 
 if __name__ == '__main__':
