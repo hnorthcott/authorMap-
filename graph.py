@@ -2,9 +2,15 @@ import networkx as nx
 import main
 
 
-if __name__ == '__main__':
-    d = main.paperDict
+def makeGraph(d):
     g = nx.Graph(d)
+    nx.write_graphml(g, 'g.xml')
+
+
+
+
+
+
 
 
 
