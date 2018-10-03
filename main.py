@@ -49,7 +49,7 @@ def summary_details(id_list):
 
 
 if __name__ == '__main__':
-    results = search('cervical cancer')
+    results = search('cancer')
     id_list = results['IdList']
     summary_details(id_list)
     graph.makeGraph(paperDict)
