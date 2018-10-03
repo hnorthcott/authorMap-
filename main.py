@@ -13,7 +13,7 @@ def __init__(self, email):
 def search(query):
     handle = Entrez.esearch(db='pubmed',
                             sort='relevance',
-                            retmax='50',
+                            retmax='25',
                             retmode='xml',
                             term=query)
     results = Entrez.read(handle)
@@ -41,18 +41,20 @@ def summary_details(id_list):
     records = Entrez.parse(handle)
 
     for record in records:
+        record['AuthorList'].pop()
         paperDict[(record['LastAuthor'])] = record['AuthorList']
         #print(record['AuthorList'])
         #print(record['LastAuthor'])
 
-    #print(paperDict)
+    print(paperDict)
 
 
 if __name__ == '__main__':
-    results = search('cancer')
+    results = search('steroids')
     id_list = results['IdList']
+    papers = fetch_details(id_list)
     summary_details(id_list)
     graph.makeGraph(paperDict)
-    papers = fetch_details(id_list)
+
     # for i, paper in enumerate(papers['PubmedArticle']):
         # print("%d) %s" % (i + 1, paper['MedlineCitation']['Article']['ArticleTitle']))
