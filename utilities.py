@@ -3,7 +3,7 @@ from Bio import Entrez
 def search(query):
     handle = Entrez.esearch(db='pubmed',
                             sort='relevance',
-                            retmax='100',
+                            retmax='500',
                             retmode='xml',
                             term=query)
     results = Entrez.read(handle)
@@ -32,9 +32,10 @@ def summary_details(id_list):
     records = Entrez.parse(handle)
 
     for record in records:
-        record['AuthorList'].pop()
-        paperDict[(record['LastAuthor'])] = record['AuthorList']
-        #print(record['AuthorList'])
-        #print(record['LastAuthor'])
+        if len(record['LastAuthor']) > 1:
+            record['AuthorList'].pop()
+            paperDict[(record['LastAuthor'])] = record['AuthorList']
+            #print(record['AuthorList'])
+            #print(record['LastAuthor'])
 
     #print(paperDict)
