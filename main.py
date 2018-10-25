@@ -12,11 +12,12 @@ def __init__(self, email):
 
 
 if __name__ == '__main__':
-    results = utilities.search('tuberculosis')
+    results = utilities.search('cancer')
     id_list = results['IdList']
     papers = utilities.fetch_details(id_list)
     utilities.summary_details(id_list)
-    graph.makeGraph(utilities.paperDict)
+    utilities.amirs_way(utilities.m_lastAuthor, utilities.m_authorList)
+    #graph.makeGraph(utilities.paperDict)
 
     # for i, paper in enumerate(papers['PubmedArticle']):
         # print("%d) %s" % (i + 1, paper['MedlineCitation']['Article']['ArticleTitle']))
