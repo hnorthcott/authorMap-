@@ -17,7 +17,7 @@ if __name__ == '__main__':
     papers = utilities.fetch_details(id_list)
     utilities.summary_details(id_list)
     utilities.amirs_way(utilities.m_lastAuthor, utilities.m_authorList)
-    #graph.makeGraph(utilities.paperDict)
+    graph.makeGraph(utilities.amirDict)
 
     # for i, paper in enumerate(papers['PubmedArticle']):
         # print("%d) %s" % (i + 1, paper['MedlineCitation']['Article']['ArticleTitle']))

@@ -1,6 +1,4 @@
 import networkx as nx
-import matplotlib.pyplot as plt
-import main
 import json
 from IPython.display import Image
 from py2cytoscape.util import from_networkx

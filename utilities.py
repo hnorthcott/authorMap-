@@ -3,7 +3,7 @@ from Bio import Entrez
 def search(query):
     handle = Entrez.esearch(db='pubmed',
                             sort='relevance',
-                            retmax='50',
+                            retmax='100',
                             retmode='xml',
                             term=query)
     results = Entrez.read(handle)
@@ -47,17 +47,22 @@ def summary_details(id_list):
     #print(m_lastAuthor)
 
 
-def amirs_way(l1,l2):
-    # last author list = l1, author list = l2
-    for list in l2:
-        for supAuthor in list:
-            if supAuthor in l1:
-                continue
-            else:
-                list.remove(supAuthor)
+amirDict = {}
 
-    print(l1)
-    print(l2)
+def amirs_way(l1, l2):
+    # last author list = l1, author list = l2
+    for subList in l2:
+        for supAuthor in subList[:]:
+            if supAuthor not in l1:
+                subList.remove(supAuthor)
+
+    #print(l1)
+    #print(l2)
+
+    amirDict = dict(zip(l1, l2))
+    print(amirDict)
+
+
 
 
 
