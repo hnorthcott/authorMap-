@@ -47,8 +47,6 @@ def summary_details(id_list):
     #print(m_lastAuthor)
 
 
-amirDict = {}
-
 def amirs_way(l1, l2):
     # last author list = l1, author list = l2
     for subList in l2:
@@ -59,6 +57,7 @@ def amirs_way(l1, l2):
     #print(l1)
     #print(l2)
 
+    global amirDict
     amirDict = dict(zip(l1, l2))
     print(amirDict)
 
