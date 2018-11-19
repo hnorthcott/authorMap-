@@ -13,12 +13,11 @@ def __init__(self, email):
 
 
 if __name__ == '__main__':
-    results = utilities.search('chemotherapy')
+    results = utilities.search('cancer')
     id_list = results['IdList']
     papers = utilities.fetch_details(id_list)
     utilities.summary_details(id_list)
     utilities.amirs_way(utilities.m_lastAuthor, utilities.m_authorList)
     graph.makeGraph(utilities.amirDict)
-    scopus.influencer_detector(utilities.amirDict)
+    scopus.influencer_detector(utilities.influencerDict)
     #graph.graphAnalysis(graph.g)
-    #graph.centrality_scatter(graph.bet_cen, graph.clo_cen)

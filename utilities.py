@@ -1,5 +1,4 @@
 from Bio import Entrez
-
 def search(query):
     handle = Entrez.esearch(db='pubmed',
                             sort='relevance',
@@ -19,30 +18,34 @@ def fetch_details(id_list):
     results = Entrez.read(handle)
     return results
 
-
 paperDict = {}
+influencerDict = {}
 m_lastAuthor = []
 m_authorList = []
-
 
 def summary_details(id_list):
     ids = ','.join(id_list)
     Entrez.email = 'awmoulaison@wpi.edu'
-    handle = Entrez.esummary(db = 'pubmed',
-                             retmode = 'xml',
-                             id= ids)
+    handle = Entrez.esummary(db='pubmed',
+                             retmode='xml',
+                             id=ids)
     records = Entrez.parse(handle)
 
     for record in records:
+        #print(record)
         m_lastAuthor.append(record['LastAuthor'])
         m_authorList.append(record['AuthorList'])
+        global influencerDict
         if len(record['LastAuthor']) > 1:
             record['AuthorList'].pop()
             paperDict[(record['LastAuthor'])] = record['AuthorList']
+            influencerDict[(record['LastAuthor'])] = record['Title']
+
             #print(record['AuthorList'])
             #print(record['LastAuthor'])
 
     #print(paperDict)
+    #print(influencerDict)
     #print(m_authorList)
     #print(m_lastAuthor)
 
@@ -59,18 +62,4 @@ def amirs_way(l1, l2):
 
     global amirDict
     amirDict = dict(zip(l1, l2))
-    print(amirDict)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    #print(amirDict)
