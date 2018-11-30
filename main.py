@@ -13,14 +13,13 @@ def __init__(self, email):
 
 
 if __name__ == '__main__':
-    #results = utilities.search('ethics')
-    #id_list = results['IdList']
-    #papers = utilities.fetch_details(id_list)
-    #utilities.summary_details(id_list)
-    #utilities.amirs_way(utilities.m_lastAuthor, utilities.m_authorList)
-    #graph.makeGraph(utilities.amirDict)
-    #scopus.influencer_detector(utilities.influencerDict)
-    #scopus.googlescholar(utilities.influencerDict)
+    results = utilities.search('etiology')
+    id_list = results['IdList']
+    papers = utilities.fetch_details(id_list)
+    utilities.summary_details(id_list)
+    utilities.amirs_way(utilities.m_lastAuthor, utilities.m_authorList)
+    graph.makeGraph(utilities.amirDict)
+    graph.nodeDegree(graph.g)
     #graph.graphAnalysis(graph.g)
     utilities.systematicApproach(utilities.disciplines_list)
 

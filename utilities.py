@@ -1,5 +1,4 @@
 from Bio import Entrez
-
 def search(query):
     handle = Entrez.esearch(db='pubmed',
                             sort='relevance',
@@ -41,9 +40,6 @@ def summary_details(id_list):
             record['AuthorList'].pop()
             paperDict[(record['LastAuthor'])] = record['AuthorList']
             influencerDict[(record['LastAuthor'])] = record['Title']
-
-            #print(record['AuthorList'])
-            #print(record['LastAuthor'])
 
     #print(paperDict)
     #print(influencerDict)

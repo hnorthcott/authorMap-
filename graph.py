@@ -3,8 +3,9 @@ import json
 from IPython.display import Image
 from py2cytoscape.util import from_networkx
 import requests
-import matplotlib.pyplot as plt
 import operator
+import collections
+import matplotlib.pyplot as plt
 import community
 
 server = 'http://localhost:1234/v1'
@@ -26,9 +27,22 @@ def makeGraph(d):
                             data=json.dumps(authorMap),
                             headers={'Content-Type': 'application/json'})
     net_id = authorNet.json()['networkSUID']
-    requests.get('%s/apply/layouts/force-directed/%d' % (server, net_id))
+    requests.get('%s/apply/layouts/circular/%d' % (server, net_id))
     Image('%s/networks/%d/views/first.png' % (server, net_id))
 
+def nodeDegree(graph):
+    degree_sequence = sorted([d for n, d in graph.degree()], reverse=True)
+    degreeCount = collections.Counter(degree_sequence)
+    deg, cnt = zip(*degreeCount.items())
+
+    fig, ax = plt.subplots()
+    plt.bar(deg, cnt, width=0.80, color='b')
+    plt.title("Degree Histogram")
+    plt.ylabel("Count")
+    plt.xlabel("Degree")
+    ax.set_xticks([d + 0.4 for d in deg])
+    ax.set_xticklabels(deg)
+    plt.show()
 
 def graphAnalysis(graph):
     #Calculate cluster coefficent- measure of the degree to which nodes in a graph tend to cluster together.
