@@ -65,7 +65,9 @@ def amirs_way(l1, l2):
     amirDict = dict(zip(l1, l2))
     #print(amirDict)
 
+
 disciplines_list = ['adverse+effects', 'analogs+and+derivatives', 'analysis', 'anatomy+and+histology', 'chemistry', 'classification', 'complications', 'cytology', 'diagnosis', 'diagnostic+imaging', 'drug+effects', 'economics', 'education', 'enzymology', 'ethics', 'etiology', 'genetics', 'history', 'immunology', 'instrumentation', 'legislation+and+jurisprudence', 'manpower', 'metabolism', 'methods', 'microbiology', 'organization+and+administration', 'pathogenicity', 'pathology', 'pharmacology', 'physiology', 'prevention+and+control', 'psychology', 'radiation+effects', 'standards', 'statistics+and+numerical+data', 'supply+and+distribution', 'surgery', 'therapeutic+use', 'therapy', 'trends', 'urine', 'utilization', 'veterinary']
+
 
 def systematicApproach(l):
     for i in disciplines_list:
