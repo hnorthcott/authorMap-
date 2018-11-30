@@ -2,7 +2,7 @@ from Bio import Entrez
 def search(query):
     handle = Entrez.esearch(db='pubmed',
                             sort='relevance',
-                            retmax='500000',
+                            retmax='500',
                             retmode='xml',
                             term=query)
     results = Entrez.read(handle)
@@ -67,7 +67,9 @@ disciplines_list = ['adverse+effects', 'analogs+and+derivatives', 'analysis', 'a
 
 def systematicApproach(l):
     for i in disciplines_list:
-        SAresults = search('ethics')
+        query = "'" + i + "'"
+        print(query)
+        SAresults = search(query)
         SA_id_list = SAresults['IdList']
         papers = fetch_details(SA_id_list)
         summary_details(SA_id_list)
