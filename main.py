@@ -13,11 +13,11 @@ def __init__(self, email):
 
 
 if __name__ == '__main__':
-    results = utilities.search('etiology')
+    results = utilities.search('cancer')
     id_list = results['IdList']
     papers = utilities.fetch_details(id_list)
     utilities.summary_details(id_list)
     utilities.amirs_way(utilities.m_lastAuthor, utilities.m_authorList)
     graph.makeGraph(utilities.amirDict)
-    graph.nodeDegree(graph.g)
+    scopus.influencer_detector(utilities.influencerDict)
     #graph.graphAnalysis(graph.g)
