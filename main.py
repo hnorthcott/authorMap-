@@ -21,3 +21,5 @@ if __name__ == '__main__':
     graph.makeGraph(utilities.amirDict)
     graph.nodeDegree(graph.g)
     #graph.graphAnalysis(graph.g)
+    utilities.systematicApproach(utilities.disciplines_list)
+
