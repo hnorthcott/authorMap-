@@ -3,7 +3,7 @@ import graph
 def search(query):
     handle = Entrez.esearch(db='pubmed',
                             sort='relevance',
-                            retmax='500000',
+                            retmax='500',
                             retmode='xml',
                             term=query)
     results = Entrez.read(handle)
