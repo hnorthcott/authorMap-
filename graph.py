@@ -5,6 +5,9 @@ from py2cytoscape.util import from_networkx
 import requests
 import operator
 import collections
+import numpy as np
+import powerlaw
+import mpmath
 import matplotlib.pyplot as plt
 import community
 
@@ -35,14 +38,25 @@ def nodeDegree(graph):
     degreeCount = collections.Counter(degree_sequence)
     deg, cnt = zip(*degreeCount.items())
 
-    fig, ax = plt.subplots()
-    plt.bar(deg, cnt, width=0.80, color='b')
-    plt.title("Degree Histogram")
-    plt.ylabel("Count")
-    plt.xlabel("Degree")
-    ax.set_xticks([d + 0.4 for d in deg])
-    ax.set_xticklabels(deg)
-    plt.show()
+    np.seterr(divide='ignore', invalid='ignore')
+    fitgen = powerlaw.Fit(deg, discrete=True)
+
+    Rgen, pgen = fitgen.distribution_compare('power_law', 'exponential', normalized_ratio=True)
+    print(Rgen, pgen)
+
+    if Rgen < 0:
+        print(False)
+    else:
+         print(True)
+
+    # fig, ax = plt.subplots()
+    # plt.bar(deg, cnt, width=0.80, color='b')
+    # plt.title("Degree Histogram")
+    # plt.ylabel("Count")
+    # plt.xlabel("Degree")
+    # ax.set_xticks([d + 0.4 for d in deg])
+    # ax.set_xticklabels(deg)
+    # plt.show()
 
 def graphAnalysis(graph):
     #Calculate cluster coefficent- measure of the degree to which nodes in a graph tend to cluster together.

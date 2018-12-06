@@ -1,4 +1,5 @@
 from Bio import Entrez
+import graph
 def search(query):
     handle = Entrez.esearch(db='pubmed',
                             sort='relevance',
@@ -66,10 +67,11 @@ disciplines_list = ['adverse+effects', 'analogs+and+derivatives', 'analysis', 'a
 
 
 def systematicApproach(l):
-    for i in disciplines_list:
-        query = "'" + i + "'"
-        print(query)
-        SAresults = search(query)
+    for counter, option in enumerate(disciplines_list):
+        SAresults = search(option)
         SA_id_list = SAresults['IdList']
         papers = fetch_details(SA_id_list)
         summary_details(SA_id_list)
+        amirs_way(m_lastAuthor, m_authorList)
+        graph.makeGraph(amirDict)
+        graph.nodeDegree(graph.g)
