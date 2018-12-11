@@ -17,38 +17,21 @@ server = 'http://localhost:1234/v1'
 def makeGraph(d):
     global g
     g = nx.Graph(d)
-    '''
-    # Community showing in matplotlib 
-    parts = community.best_partition(g)
-    values = [parts.get(node) for node in g.nodes()]
-    nx.draw(g, node_color=values, with_labels=False)
-    plt.show()
-    '''
     nx.write_graphml(g, 'g.xml')
     authorMap = from_networkx(g)
-    authorNet = requests.post(server + '/networks',
-                            data=json.dumps(authorMap),
-                            headers={'Content-Type': 'application/json'})
-    net_id = authorNet.json()['networkSUID']
-    requests.get('%s/apply/layouts/circular/%d' % (server, net_id))
-    Image('%s/networks/%d/views/first.png' % (server, net_id))
+    # authorNet = requests.post(server + '/networks',
+    #                         data=json.dumps(authorMap),
+    #                         headers={'Content-Type': 'application/json'})
+    # net_id = authorNet.json()['networkSUID']
+    # requests.get('%s/apply/layouts/circular/%d' % (server, net_id))
+    # Image('%s/networks/%d/views/first.png' % (server, net_id))
 
 def nodeDegree(graph):
     degree_sequence = sorted([d for n, d in graph.degree()], reverse=True)
     degreeCount = collections.Counter(degree_sequence)
     deg, cnt = zip(*degreeCount.items())
 
-    np.seterr(divide='ignore', invalid='ignore')
-    fitgen = powerlaw.Fit(deg, discrete=True)
-
-    Rgen, pgen = fitgen.distribution_compare('power_law', 'exponential', normalized_ratio=True)
-    print(Rgen, pgen)
-
-    if Rgen < 0:
-        print(False)
-    else:
-         print(True)
-
+    # # plot node degrees
     # fig, ax = plt.subplots()
     # plt.bar(deg, cnt, width=0.80, color='b')
     # plt.title("Degree Histogram")
@@ -56,32 +39,105 @@ def nodeDegree(graph):
     # plt.xlabel("Degree")
     # ax.set_xticks([d + 0.4 for d in deg])
     # ax.set_xticklabels(deg)
-    # plt.show()
+    # plt.savefig('nodeDegrees')
 
-def graphAnalysis(graph):
-    #Calculate cluster coefficent- measure of the degree to which nodes in a graph tend to cluster together.
-    print(nx.clustering(graph))
-    #graph density
-    print(nx.density(graph))
-    # Calculate the node centrality- measure of the influence of a node in a network
-    # Betweenness centrality
-    global bet_cen
-    bet_cen = nx.betweenness_centrality(graph)
-    sorted_bet_cen = sorted(bet_cen.items(), key= operator.itemgetter(0), reverse=True)
-    print(sorted_bet_cen)
-    # Closeness centrality
-    global clo_cen
-    clo_cen = nx.closeness_centrality(graph)
-    sorted_clo_cen = sorted(clo_cen.items(), key=operator.itemgetter(0), reverse=True)
-    print(sorted_clo_cen)
+    np.seterr(divide='ignore', invalid='ignore')
+    fitgen = powerlaw.Fit(deg, discrete=True)
+
+    global RgenL
+    global PgenL
+
+    RgenL = []
+    PgenL = []
+
+    Rgen, pgen = fitgen.distribution_compare('power_law', 'lognormal', normalized_ratio=True)
+    print(Rgen, pgen)
+    RgenL.append(Rgen)
+    np.log(pgen)
+    PgenL.append(pgen)
+
+    if Rgen < 0:
+        print(False)
+    else:
+        print(True)
+
+
+def graphRP(PL, RL):
+    plt.scatter(PL, RL)
+    plt.xlabel('log p-value')
+    plt.ylabel('maximum likelihood (R)')
+    plt.title('Graph Type Proof')
+    plt.savefig('HypoTesting.png')
+
+communities = []
+densities = []
+
+def graphAnalysis(graph, i):
+    # Community counting
+    parts = community.best_partition(g)
+    max_value = max(parts.values())
+    #print(max_value)
+    communities.append(max_value)
+
+    # graph density
+    global gDense
+    gDense = nx.density(graph)
+    #print(gDense)
+    densities.append(gDense)
+
+    # Calculate cluster coefficent- measure of the degree to which nodes in a graph tend to cluster together.
+    global clusterCo
+    clusterCo = nx.clustering(graph)
+    print(clusterCo)
+    plt.scatter(sorted(clusterCo.values()), clusterCo.keys())
+    plt.xlabel('Cluster Coefficient')
+    plt.ylabel('Last Authors')
+    plt.title('Clustering Coefficent')
+    plt.savefig(f'cluster{i}.png')
+
     # Eigenvector centrality
     global eig_cen
     eig_cen = nx.eigenvector_centrality(graph)
-    sorted_eig_cen = sorted(eig_cen.items(), key=operator.itemgetter(0), reverse=True)
-    print(sorted_eig_cen)
+    plt.scatter(sorted(eig_cen.values()), eig_cen.keys())
+    plt.xlabel('Eigenvector Centrality')
+    plt.ylabel('Last Authors')
+    plt.title('Eigenvector centrality')
+    plt.savefig(f'eigenvector{i}.png')
+
     # Degree centrality
     global deg_cen
     deg_cen = nx.degree_centrality(graph)
-    sorted_deg_cen = sorted(deg_cen.items(), key=operator.itemgetter(0), reverse=True)
-    print(deg_cen)
+    plt.scatter(sorted(deg_cen.values()), deg_cen.keys())
+    plt.xlabel('Degree Centrality')
+    plt.ylabel('Last Authors')
+    plt.title('Degree Centrality')
+    plt.savefig(f'degreeCenter{i}.png')
+
+
+    # Calculate the node centrality- measure of the influence of a node in a network
+    # Betweenness centrality
+    # global bet_cen
+    # bet_cen = nx.betweenness_centrality(graph)
+    # sorted_bet_cen = sorted(bet_cen.items(), key= operator.itemgetter(0), reverse=True)
+    # print(sorted_bet_cen)
+
+    # Closeness centrality
+    # global clo_cen
+    # clo_cen = nx.closeness_centrality(graph)
+    # sorted_clo_cen = sorted(clo_cen.items(), key=operator.itemgetter(0), reverse=True)
+    # print(sorted_clo_cen)
+
+def inclusiveGraphs(l1, l2):
+    #create graph for communities
+    plt.barh(l1, len(l1), align='center', alpha=0.5)
+    plt.xlabel('Number of Communities')
+    plt.title('Communities Detected')
+    plt.savefig('communities.png')
+
+    # create graph for densities
+    plt.barh(l2, len(l2), align='center', alpha= 0.5)
+    plt.xlabel('Density of Graph')
+    plt.title(' Graph Densities')
+    plt.savefig('densities.png')
+
 
