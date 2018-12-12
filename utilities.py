@@ -68,7 +68,7 @@ broad_list = ['anatomy', 'biochemistry', 'biology', 'biophysics', 'biotechnology
 narrow_list = ['anatomy, artistic', 'anatomy, comparative', 'anatomy, cross-sectional', 'anatomy, regional', 'anatomy, veterinary', 'cell biology, anatomy', 'embryology', 'histology', 'neuroanatomy', 'osteology', 'carbohydrate biochemistry', 'chemistry, bioinorganic', 'histocytochemistry', 'immunochemistry', 'metabolomics', 'molecular biology', 'neurochemistry', 'proteomics', 'botany', 'cell biology, biology', 'computational biology', 'cryobiology', 'developmental biology', 'ecology', 'exobiology', 'genetics', 'laboratory animal science', 'microbiology', 'natural history', 'neurobiology', 'parasitology', 'photobiology', 'radiobiology', 'sociobiology', 'synthetic biology', 'zoology', 'bionics', 'electrophysiology', 'biomimetics', 'cognitive neuroscience', 'neuroanatomy', 'neurobiology', 'neurochemistry', 'neuroendocrinology', 'neuropathology', 'neuropharmacology', 'neurophysiology', 'biopharmaceutics', 'chemistry, pharmaceutical', 'ethnopharmacology', 'neuropharmacology', 'pharmacoepidemiology', 'pharmacogenetics', 'pharmacognosy', 'pharmacology, clinical', 'psychopharmacology', 'electrophysiology', 'endocrinology', 'neurophysiology', 'physiology, comparative', 'psychophysiology', 'ecotoxicology', 'forensic toxicology', 'toxicogenetics']
 
 def systematicApproach(l):
-    for counter, option in enumerate(test_list):
+    for counter, option in enumerate(broad_list):
         SAresults = search(option)
         SA_id_list = SAresults['IdList']
         summary_details(SA_id_list)
@@ -77,5 +77,6 @@ def systematicApproach(l):
         graph.nodeDegree(graph.g)
         graph.graphRP(graph.PgenL, graph.RgenL)
         graph.graphAnalysis(graph.g, counter)
+        graph.writeToCSV(graph.clusterCo, graph.eig_cen, graph.deg_cen, counter)
 
     graph.inclusiveGraphs(graph.communities, graph.densities)
