@@ -17,7 +17,7 @@ if __name__ == '__main__':
     # id_list = results['IdList']
     # papers = utilities.fetch_details(id_list)
     # utilities.summary_details(id_list)
-    utilities.systematicApproach(utilities.test_list)
+    utilities.systematicApproach(utilities.broad_list)
     #utilities.amirs_way(utilities.m_lastAuthor, utilities.m_authorList)
     #graph.makeGraph(utilities.amirDict)
     #graph.nodeDegree(graph.g)
