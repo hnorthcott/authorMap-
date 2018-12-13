@@ -62,7 +62,7 @@ def amirs_way(l1, l2):
     amirDict = dict(zip(l1, l2))
     #print(amirDict)
 
-test_list = ['anatomy', 'biochemistry']
+test_list = ['neurosciences', 'pharmacology', 'physiology', 'toxicology']
 disciplines_list = ['adverse+effects', 'analogs+and+derivatives', 'analysis', 'anatomy+and+histology', 'chemistry', 'classification', 'complications', 'cytology', 'diagnosis', 'diagnostic+imaging', 'drug+effects', 'economics', 'education', 'enzymology', 'ethics', 'etiology', 'genetics', 'history', 'immunology', 'instrumentation', 'legislation+and+jurisprudence', 'manpower', 'metabolism', 'methods', 'microbiology', 'organization+and+administration', 'pathogenicity', 'pathology', 'pharmacology', 'physiology', 'prevention+and+control', 'psychology', 'radiation+effects', 'standards', 'statistics+and+numerical+data', 'supply+and+distribution', 'surgery', 'therapeutic+use', 'therapy', 'trends', 'urine', 'utilization', 'veterinary']
 broad_list = ['anatomy', 'biochemistry', 'biology', 'biophysics', 'biotechnology', 'chronobiology', 'neurosciences', 'pharmacology', 'physiology', 'toxicology']
 narrow_list = ['anatomy, artistic', 'anatomy, comparative', 'anatomy, cross-sectional', 'anatomy, regional', 'anatomy, veterinary', 'cell biology, anatomy', 'embryology', 'histology', 'neuroanatomy', 'osteology', 'carbohydrate biochemistry', 'chemistry, bioinorganic', 'histocytochemistry', 'immunochemistry', 'metabolomics', 'molecular biology', 'neurochemistry', 'proteomics', 'botany', 'cell biology, biology', 'computational biology', 'cryobiology', 'developmental biology', 'ecology', 'exobiology', 'genetics', 'laboratory animal science', 'microbiology', 'natural history', 'neurobiology', 'parasitology', 'photobiology', 'radiobiology', 'sociobiology', 'synthetic biology', 'zoology', 'bionics', 'electrophysiology', 'biomimetics', 'cognitive neuroscience', 'neuroanatomy', 'neurobiology', 'neurochemistry', 'neuroendocrinology', 'neuropathology', 'neuropharmacology', 'neurophysiology', 'biopharmaceutics', 'chemistry, pharmaceutical', 'ethnopharmacology', 'neuropharmacology', 'pharmacoepidemiology', 'pharmacogenetics', 'pharmacognosy', 'pharmacology, clinical', 'psychopharmacology', 'electrophysiology', 'endocrinology', 'neurophysiology', 'physiology, comparative', 'psychophysiology', 'ecotoxicology', 'forensic toxicology', 'toxicogenetics']
@@ -77,6 +77,7 @@ def systematicApproach(l):
         graph.nodeDegree(graph.g)
         graph.graphRP(graph.PgenL, graph.RgenL)
         graph.graphAnalysis(graph.g, counter)
-        graph.writeToCSV(graph.clusterCo, graph.eig_cen, graph.deg_cen, counter)
+        #graph.writeToCSV(graph.clusterCo, graph.eig_cen, graph.deg_cen, counter)
 
     graph.inclusiveGraphs(graph.communities, graph.densities)
+    graph.printGraphingLists(graph.clusterCoAvg, graph.eigenVectorAvg, graph.degreeCentAvg)

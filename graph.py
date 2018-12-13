@@ -69,13 +69,17 @@ def graphRP(PL, RL):
     plt.ylabel('maximum likelihood (R)')
     plt.title('Graph Type Proof')
     plt.savefig('HypoTesting.png')
+    plt.clf()
 
 communities = []
 densities = []
+degreeCentAvg = []
+clusterCoAvg = []
+eigenVectorAvg = []
 
 def graphAnalysis(graph, i):
     # Community counting
-    max_value = 0
+    parts = 0
     parts = community.best_partition(g)
     max_value = max(parts.values())
     communities.append(max_value)
@@ -88,34 +92,75 @@ def graphAnalysis(graph, i):
 
     # Calculate cluster coefficent- measure of the degree to which nodes in a graph tend to cluster together.
     global clusterCo
-    clusterCo = 0
+    clusterCo = {}
+    clusterCo.clear()
     clusterCo = nx.clustering(graph)
-    #print(clusterCo)
-    plt.scatter(sorted(clusterCo.values()), clusterCo.keys())
-    plt.xlabel('Cluster Coefficient')
-    plt.ylabel('Last Authors')
-    plt.title('Clustering Coefficent')
-    plt.savefig(f'cluster{i}.png')
+
+    # getting average of all values in dictionary
+    CCcount = 0
+    CCsum = 0
+    for key in clusterCo:
+        CCcount += 1
+        CCsum += clusterCo[key]
+    CCavg = (CCsum / CCcount)
+    clusterCoAvg.append(CCavg)
+
+    # graphing in Matplot lib
+    # plt.scatter(sorted(clusterCo.values()), clusterCo.keys())
+    # plt.xlabel('Cluster Coefficient')
+    # plt.ylabel('Last Authors')
+    # plt.title('Clustering Coefficent')
+    # plt.savefig(f'cluster{i}.png')
+    # plt.close()
+    # print('Done with ClusteringCo Plot')
 
     # Eigenvector centrality
     global eig_cen
-    eig_cen = 0
+    eig_cen = {}
+    eig_cen.clear()
     eig_cen = nx.eigenvector_centrality(graph)
-    plt.scatter(sorted(eig_cen.values()), eig_cen.keys())
-    plt.xlabel('Eigenvector Centrality')
-    plt.ylabel('Last Authors')
-    plt.title('Eigenvector centrality')
-    plt.savefig(f'eigenvector{i}.png')
+
+    # getting average eigen vector centrality
+    EVcount = 0
+    EVsum = 0
+    for key in eig_cen:
+        EVcount += 1
+        EVsum += eig_cen[key]
+    EVavg = (EVsum / EVcount)
+    eigenVectorAvg.append(EVavg)
+
+    # graphing eigenVector in MatplotLib
+    # plt.scatter(sorted(eig_cen.values()), eig_cen.keys())
+    # plt.xlabel('Eigenvector Centrality')
+    # plt.ylabel('Last Authors')
+    # plt.title('Eigenvector centrality')
+    # plt.savefig(f'eigenvector{i}.png')
+    # plt.close()
+    # print('Done with EigenVec Plot')
 
     # Degree centrality
     global deg_cen
-    deg_cen = 0
+    deg_cen = {}
+    deg_cen.clear()
     deg_cen = nx.degree_centrality(graph)
-    plt.scatter(sorted(deg_cen.values()), deg_cen.keys())
-    plt.xlabel('Degree Centrality')
-    plt.ylabel('Last Authors')
-    plt.title('Degree Centrality')
-    plt.savefig(f'degreeCenter{i}.png')
+
+    #getting average degree centrality
+    DCcount = 0
+    DCsum = 0
+    for key in deg_cen:
+        DCcount += 1
+        DCsum += deg_cen[key]
+    DCavg = (DCsum / DCcount)
+    degreeCentAvg.append(DCavg)
+
+    #graphing degree centrality in MatPlotLib
+    # plt.scatter(sorted(deg_cen.values()), deg_cen.keys())
+    # plt.xlabel('Degree Centrality')
+    # plt.ylabel('Last Authors')
+    # plt.title('Degree Centrality')
+    # plt.savefig(f'degreeCenter{i}.png')
+    # plt.close()
+    # print('Done with DegreeCent Plot')
 
 
     # Calculate the node centrality- measure of the influence of a node in a network
@@ -137,6 +182,7 @@ def inclusiveGraphs(l1, l2):
     plt.xlabel('Number of Communities')
     plt.title('Communities Detected')
     plt.savefig('communities.png')
+    plt.close()
     print(l1)
 
     # create graph for densities
@@ -145,21 +191,27 @@ def inclusiveGraphs(l1, l2):
     plt.ylabel('Graphs')
     plt.title(' Graph Densities')
     plt.savefig('densities.png')
+    plt.close()
     print(l2)
 
 def writeToCSV(d1,d2,d3,i):
 
-    with open(f'clusteringCsv{i}.csv', 'w') as csv_file:
+    with open(f'clusteringCsv{i}.csv', 'w+') as csv_file:
         writer = csv.writer(csv_file)
         for key, value in d1.items():
             writer.writerow([key, value])
 
-    with open(f'eigenVectorCSV{i}.csv', 'w') as csv_file:
+    with open(f'eigenVectorCSV{i}.csv', 'w+') as csv_file:
         writer = csv.writer(csv_file)
         for key, value in d2.items():
             writer.writerow([key, value])
 
-    with open(f'degreeCentCsv{i}.csv', 'w') as csv_file:
+    with open(f'degreeCentCsv{i}.csv', 'w+') as csv_file:
         writer = csv.writer(csv_file)
         for key, value in d3.items():
             writer.writerow([key, value])
+
+def printGraphingLists (l1,l2,l3):
+    print(l1)
+    print(l2)
+    print(l3)
