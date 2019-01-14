@@ -79,5 +79,5 @@ def systematicApproach(l):
         graph.graphAnalysis(graph.g, counter)
         #graph.writeToCSV(graph.clusterCo, graph.eig_cen, graph.deg_cen, counter)
 
-    graph.inclusiveGraphs(graph.communities, graph.densities)
-    graph.printGraphingLists(graph.clusterCoAvg, graph.eigenVectorAvg, graph.degreeCentAvg)
+    #graph.inclusiveGraphs(graph.communities, graph.densities)
+    graph.printGraphingLists(graph.totalNodes, graph.communities)
