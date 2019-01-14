@@ -7,7 +7,6 @@ import operator
 import collections
 import numpy as np
 import powerlaw
-import mpmath
 import matplotlib.pyplot as plt
 import community
 import csv
@@ -57,38 +56,55 @@ def nodeDegree(graph):
     np.log(pgen)
     PgenL.append(pgen)
 
-    if Rgen < 0:
-        print(False)
-    else:
-        print(True)
 
-
-def graphRP(PL, RL):
-    plt.scatter(PL, RL)
-    plt.xlabel('log p-value')
-    plt.ylabel('maximum likelihood (R)')
-    plt.title('Graph Type Proof')
-    plt.savefig('HypoTesting.png')
-    plt.clf()
+# def graphRP(PL, RL):
+#     plt.scatter(PL, RL)
+#     plt.xlabel('log p-value')
+#     plt.ylabel('maximum likelihood (R)')
+#     plt.title('Graph Type Proof')
+#     plt.savefig('HypoTesting.png')
+#     plt.clf()
 
 communities = []
 densities = []
 degreeCentAvg = []
 clusterCoAvg = []
 eigenVectorAvg = []
+numCliques = []
+largestCliqueSize = []
+isConnected = []
+numConnected = []
+totalNodes =[]
 
 def graphAnalysis(graph, i):
+    # number of total nodes in a graph
+    global total
+    total = 0
+    total = nx.number_of_nodes(graph)
+    totalNodes.append(total)
+
     # Community counting
+    global parts
     parts = 0
     parts = community.best_partition(g)
     max_value = max(parts.values())
-    communities.append(max_value)
+    if max_value > 0.00000000:
+        communities.append(max_value)
 
-    # graph density
-    global gDense
-    gDense = 0
-    gDense = nx.density(graph)
-    densities.append(gDense)
+    # Degree centrality
+    global deg_cen
+    deg_cen = {}
+    deg_cen.clear()
+    deg_cen = nx.degree_centrality(graph)
+
+    # getting average degree centrality
+    DCcount = 0
+    DCsum = 0
+    for key in deg_cen:
+        DCcount += 1
+        DCsum += deg_cen[key]
+    DCavg = (DCsum / DCcount)
+    degreeCentAvg.append(DCavg)
 
     # Calculate cluster coefficent- measure of the degree to which nodes in a graph tend to cluster together.
     global clusterCo
@@ -105,6 +121,14 @@ def graphAnalysis(graph, i):
     CCavg = (CCsum / CCcount)
     clusterCoAvg.append(CCavg)
 
+    # graph density
+    # global gDense
+    # gDense = 0
+    # gDense = nx.density(graph)
+    # if gDense > 0.00000000:
+    #     densities.append(gDense)
+
+
     # graphing in Matplot lib
     # plt.scatter(sorted(clusterCo.values()), clusterCo.keys())
     # plt.xlabel('Cluster Coefficient')
@@ -115,21 +139,21 @@ def graphAnalysis(graph, i):
     # print('Done with ClusteringCo Plot')
 
     # Eigenvector centrality
-    global eig_cen
-    eig_cen = {}
-    eig_cen.clear()
-    eig_cen = nx.eigenvector_centrality(graph)
-
-    # getting average eigen vector centrality
-    EVcount = 0
-    EVsum = 0
-    for key in eig_cen:
-        EVcount += 1
-        EVsum += eig_cen[key]
-    EVavg = (EVsum / EVcount)
-    eigenVectorAvg.append(EVavg)
-
-    # graphing eigenVector in MatplotLib
+    # global eig_cen
+    # eig_cen = {}
+    # eig_cen.clear()
+    # eig_cen = nx.eigenvector_centrality(graph)
+    #
+    # # getting average eigen vector centrality
+    # EVcount = 0
+    # EVsum = 0
+    # for key in eig_cen:
+    #     EVcount += 1
+    #     EVsum += eig_cen[key]
+    # EVavg = (EVsum / EVcount)
+    # eigenVectorAvg.append(EVavg)
+    #
+    # #graphing eigenVector in MatplotLib
     # plt.scatter(sorted(eig_cen.values()), eig_cen.keys())
     # plt.xlabel('Eigenvector Centrality')
     # plt.ylabel('Last Authors')
@@ -138,38 +162,45 @@ def graphAnalysis(graph, i):
     # plt.close()
     # print('Done with EigenVec Plot')
 
-    # Degree centrality
-    global deg_cen
-    deg_cen = {}
-    deg_cen.clear()
-    deg_cen = nx.degree_centrality(graph)
+    # #Number of cliques and largest clique
+    # Qs = 0
+    # Qs = nx.graph_number_of_cliques(graph)
+    # if Qs > 0:
+    #     numCliques.append(Qs)
+    #
+    # # Size of the largest clique
+    # size = 0
+    # size = nx.graph_clique_number(graph)
+    # if size > 0:
+    #     largestCliqueSize.append(size)
+    #
+    # # is the graph connected?
+    # a = nx.is_connected(graph)
+    # isConnected.append(a)
+    #
+    # # how much of the graph is connected
+    # num = 0
+    # num = nx.number_connected_components(graph)
+    # numConnected.append(num)
 
-    #getting average degree centrality
-    DCcount = 0
-    DCsum = 0
-    for key in deg_cen:
-        DCcount += 1
-        DCsum += deg_cen[key]
-    DCavg = (DCsum / DCcount)
-    degreeCentAvg.append(DCavg)
 
-    #graphing degree centrality in MatPlotLib
+    # #graphing degree centrality in MatPlotLib
     # plt.scatter(sorted(deg_cen.values()), deg_cen.keys())
     # plt.xlabel('Degree Centrality')
     # plt.ylabel('Last Authors')
     # plt.title('Degree Centrality')
     # plt.savefig(f'degreeCenter{i}.png')
     # plt.close()
-    # print('Done with DegreeCent Plot')
+    # #print('Done with DegreeCent Plot')
 
 
-    # Calculate the node centrality- measure of the influence of a node in a network
-    # Betweenness centrality
+    # #Calculate the node centrality- measure of the influence of a node in a network
+    # #Betweenness centrality
     # global bet_cen
     # bet_cen = nx.betweenness_centrality(graph)
     # sorted_bet_cen = sorted(bet_cen.items(), key= operator.itemgetter(0), reverse=True)
     # print(sorted_bet_cen)
-
+    #
     # Closeness centrality
     # global clo_cen
     # clo_cen = nx.closeness_centrality(graph)
@@ -211,7 +242,14 @@ def writeToCSV(d1,d2,d3,i):
         for key, value in d3.items():
             writer.writerow([key, value])
 
-def printGraphingLists (l1,l2,l3):
+
+def printGraphingLists (l1,l2):
     print(l1)
     print(l2)
-    print(l3)
+
+
+
+
+
+
+
