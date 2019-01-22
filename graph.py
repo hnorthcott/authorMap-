@@ -57,13 +57,13 @@ def nodeDegree(graph):
     PgenL.append(pgen)
 
 
-# def graphRP(PL, RL):
-#     plt.scatter(PL, RL)
-#     plt.xlabel('log p-value')
-#     plt.ylabel('maximum likelihood (R)')
-#     plt.title('Graph Type Proof')
-#     plt.savefig('HypoTesting.png')
-#     plt.clf()
+def graphRP(PL, RL):
+    plt.scatter(PL, RL)
+    plt.xlabel('log p-value')
+    plt.ylabel('maximum likelihood (R)')
+    plt.title('Graph Type Proof')
+    plt.savefig('HypoTesting.png')
+    plt.clf()
 
 communities = []
 densities = []
@@ -77,11 +77,12 @@ numConnected = []
 totalNodes =[]
 
 def graphAnalysis(graph, i):
-    # number of total nodes in a graph
+    #number of total nodes in a graph
     global total
     total = 0
     total = nx.number_of_nodes(graph)
     totalNodes.append(total)
+    print("Done with total node")
 
     # Community counting
     global parts
@@ -90,21 +91,25 @@ def graphAnalysis(graph, i):
     max_value = max(parts.values())
     if max_value > 0.00000000:
         communities.append(max_value)
+    print("Done communities")
 
-    # Degree centrality
+    #Degree centrality
     global deg_cen
     deg_cen = {}
     deg_cen.clear()
     deg_cen = nx.degree_centrality(graph)
 
-    # getting average degree centrality
+    #getting average degree centrality
     DCcount = 0
     DCsum = 0
     for key in deg_cen:
-        DCcount += 1
-        DCsum += deg_cen[key]
+        if deg_cen[key] > 0:
+            DCcount += 1
+            DCsum += deg_cen[key]
     DCavg = (DCsum / DCcount)
     degreeCentAvg.append(DCavg)
+    print('Done w. Degree Cent')
+
 
     # Calculate cluster coefficent- measure of the degree to which nodes in a graph tend to cluster together.
     global clusterCo
@@ -116,10 +121,12 @@ def graphAnalysis(graph, i):
     CCcount = 0
     CCsum = 0
     for key in clusterCo:
-        CCcount += 1
-        CCsum += clusterCo[key]
+        if clusterCo[key] > 0:
+            CCcount += 1
+            CCsum += clusterCo[key]
     CCavg = (CCsum / CCcount)
     clusterCoAvg.append(CCavg)
+    print('Done w. ClusterCo')
 
     # graph density
     # global gDense
@@ -243,7 +250,7 @@ def writeToCSV(d1,d2,d3,i):
             writer.writerow([key, value])
 
 
-def printGraphingLists (l1,l2):
+def printGraphingLists (l1, l2, l3, l4):
     print(l1)
     print(l2)
 
