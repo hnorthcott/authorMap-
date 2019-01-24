@@ -10,6 +10,7 @@ import powerlaw
 import matplotlib.pyplot as plt
 import community
 import csv
+import statistics
 
 server = 'http://localhost:1234/v1'
 
@@ -95,6 +96,7 @@ def graphAnalysis(graph, i):
 
     #Degree centrality
     global deg_cen
+    prunedDegreeCent = []
     deg_cen = {}
     deg_cen.clear()
     deg_cen = nx.degree_centrality(graph)
@@ -104,10 +106,12 @@ def graphAnalysis(graph, i):
     DCsum = 0
     for key in deg_cen:
         if deg_cen[key] > 0:
+            prunedDegreeCent.append(deg_cen[key])
             DCcount += 1
             DCsum += deg_cen[key]
     DCavg = (DCsum / DCcount)
     degreeCentAvg.append(DCavg)
+    statistics.median(prunedDegreeCent)
     print('Done w. Degree Cent')
 
 
@@ -127,6 +131,13 @@ def graphAnalysis(graph, i):
     CCavg = (CCsum / CCcount)
     clusterCoAvg.append(CCavg)
     print('Done w. ClusterCo')
+
+    #Betweenness centrality
+    global bet_cen
+    bet_cen = {}
+    bet_cen.clear()
+    bet_cen = nx.betweenness_centrality(graph)
+    print(bet_cen)
 
     # graph density
     # global gDense
@@ -253,6 +264,8 @@ def writeToCSV(d1,d2,d3,i):
 def printGraphingLists (l1, l2, l3, l4):
     print(l1)
     print(l2)
+    print(l3)
+    print(l4)
 
 
 
