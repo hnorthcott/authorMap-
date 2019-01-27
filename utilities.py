@@ -74,10 +74,10 @@ def systematicApproach(l):
         summary_details(SA_id_list)
         amirs_way(m_lastAuthor, m_authorList)
         graph.makeGraph(amirDict)
-        graph.nodeDegree(graph.g)
+        #graph.nodeDegree(graph.g)
         #graph.graphRP(graph.PgenL, graph.RgenL)
         graph.graphAnalysis(graph.g, counter)
         #graph.writeToCSV(graph.clusterCo, graph.eig_cen, graph.deg_cen, counter)
 
     #graph.inclusiveGraphs(graph.communities, graph.densities)
-    graph.printGraphingLists(graph.totalNodes, graph.communities, graph.degreeCentAvg, graph.clusterCoAvg)
+    graph.printGraphingLists(graph.degreeCentAvg)

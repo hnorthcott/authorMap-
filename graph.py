@@ -79,20 +79,20 @@ totalNodes =[]
 
 def graphAnalysis(graph, i):
     #number of total nodes in a graph
-    global total
-    total = 0
-    total = nx.number_of_nodes(graph)
-    totalNodes.append(total)
-    print("Done with total node")
+    # global total
+    # total = 0
+    # total = nx.number_of_nodes(graph)
+    # totalNodes.append(total)
+    # print("Done with total node")
 
     # Community counting
-    global parts
-    parts = 0
-    parts = community.best_partition(g)
-    max_value = max(parts.values())
-    if max_value > 0.00000000:
-        communities.append(max_value)
-    print("Done communities")
+    # global parts
+    # parts = 0
+    # parts = community.best_partition(g)
+    # max_value = max(parts.values())
+    # if max_value > 0.00000000:
+    #     communities.append(max_value)
+    # print("Done communities")
 
     #Degree centrality
     global deg_cen
@@ -116,21 +116,21 @@ def graphAnalysis(graph, i):
 
 
     # Calculate cluster coefficent- measure of the degree to which nodes in a graph tend to cluster together.
-    global clusterCo
-    clusterCo = {}
-    clusterCo.clear()
-    clusterCo = nx.clustering(graph)
-
-    # getting average of all values in dictionary
-    CCcount = 0
-    CCsum = 0
-    for key in clusterCo:
-        if clusterCo[key] > 0:
-            CCcount += 1
-            CCsum += clusterCo[key]
-    CCavg = (CCsum / CCcount)
-    clusterCoAvg.append(CCavg)
-    print('Done w. ClusterCo')
+    # global clusterCo
+    # clusterCo = {}
+    # clusterCo.clear()
+    # clusterCo = nx.clustering(graph)
+    #
+    # # getting average of all values in dictionary
+    # CCcount = 0
+    # CCsum = 0
+    # for key in clusterCo:
+    #     if clusterCo[key] > 0:
+    #         CCcount += 1
+    #         CCsum += clusterCo[key]
+    # CCavg = (CCsum / CCcount)
+    # clusterCoAvg.append(CCavg)
+    # print('Done w. ClusterCo')
 
     #Betweenness centrality
     global bet_cen
@@ -138,6 +138,7 @@ def graphAnalysis(graph, i):
     bet_cen.clear()
     bet_cen = nx.betweenness_centrality(graph)
     print(bet_cen)
+    print('Done w. Betweeness')
 
     # graph density
     # global gDense
@@ -255,11 +256,9 @@ def writeToCSV(d1,d2,d3,i):
             writer.writerow([key, value])
 
 
-def printGraphingLists (l1, l2, l3, l4):
+def printGraphingLists (l1):
     print(l1)
-    print(l2)
-    print(l3)
-    print(l4)
+
 
 
 
