@@ -111,8 +111,8 @@ def graphAnalysis(graph, i):
             DCsum += deg_cen[key]
     DCavg = (DCsum / DCcount)
     degreeCentAvg.append(DCavg)
-    statistics.median(prunedDegreeCent)
-    print('Done w. Degree Cent')
+    median = statistics.median(prunedDegreeCent)
+    print('Done w. Degree Cent' + median)
 
 
     # Calculate cluster coefficent- measure of the degree to which nodes in a graph tend to cluster together.
@@ -213,12 +213,6 @@ def graphAnalysis(graph, i):
 
 
     # #Calculate the node centrality- measure of the influence of a node in a network
-    # #Betweenness centrality
-    # global bet_cen
-    # bet_cen = nx.betweenness_centrality(graph)
-    # sorted_bet_cen = sorted(bet_cen.items(), key= operator.itemgetter(0), reverse=True)
-    # print(sorted_bet_cen)
-    #
     # Closeness centrality
     # global clo_cen
     # clo_cen = nx.closeness_centrality(graph)
