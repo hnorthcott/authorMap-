@@ -1,4 +1,5 @@
 from Bio import Entrez
+
 import graph
 def search(query):
     handle = Entrez.esearch(db='pubmed',
@@ -48,7 +49,7 @@ def summary_details(id_list):
     #print(m_lastAuthor)
 
 
-def amirs_way(l1, l2):
+def remove_supp_authors(l1, l2):
     # last author list = l1, author list = l2
     for subList in l2:
         for supAuthor in subList[:]:
@@ -58,9 +59,9 @@ def amirs_way(l1, l2):
     #print(l1)
     #print(l2)
 
-    global amirDict
-    amirDict = dict(zip(l1, l2))
-    #print(amirDict)
+    global authorDict
+    authorDict = dict(zip(l1, l2))
+    #print(authorDict)
 
 test_list = ['neurosciences', 'pharmacology', 'physiology', 'toxicology']
 disciplines_list = ['adverse+effects', 'analogs+and+derivatives', 'analysis', 'anatomy+and+histology', 'chemistry', 'classification', 'complications', 'cytology', 'diagnosis', 'diagnostic+imaging', 'drug+effects', 'economics', 'education', 'enzymology', 'ethics', 'etiology', 'genetics', 'history', 'immunology', 'instrumentation', 'legislation+and+jurisprudence', 'manpower', 'metabolism', 'methods', 'microbiology', 'organization+and+administration', 'pathogenicity', 'pathology', 'pharmacology', 'physiology', 'prevention+and+control', 'psychology', 'radiation+effects', 'standards', 'statistics+and+numerical+data', 'supply+and+distribution', 'surgery', 'therapeutic+use', 'therapy', 'trends', 'urine', 'utilization', 'veterinary']
@@ -70,14 +71,16 @@ narrow_list = ['anatomy, artistic', 'anatomy, comparative', 'anatomy, cross-sect
 def systematicApproach(l):
     for counter, option in enumerate(narrow_list):
         SAresults = search(option)
+        SAresults = search(option)
         SA_id_list = SAresults['IdList']
         summary_details(SA_id_list)
-        amirs_way(m_lastAuthor, m_authorList)
-        graph.makeGraph(amirDict)
-        #graph.nodeDegree(graph.g)
-        #graph.graphRP(graph.PgenL, graph.RgenL)
+        remove_supp_authors(m_lastAuthor, m_authorList)
+        graph.makeGraph(authorDict)
+        graph.nodeDegree(graph.g)
+        graph.graphRP(graph.PgenL, graph.RgenL)
         graph.graphAnalysis(graph.g, counter)
-        #graph.writeToCSV(graph.clusterCo, graph.eig_cen, graph.deg_cen, counter)
 
+    #graph.writeToCSV(graph.clusterCo, graph.eig_cen, graph.deg_cen, counter)
     #graph.inclusiveGraphs(graph.communities, graph.densities)
-    graph.printGraphingLists(graph.degreeCentAvg)
+    graph.printGraphingLists(graph.communities, graph.totalNodes, graph.degreeCentAvg, graph.degreeCentMedian,
+                             graph.betweennessCent, graph.clusterCoAvg)
